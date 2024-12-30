@@ -1,14 +1,12 @@
 
-from crewai_tools.tools.base_tool import BaseTool
-from crewai_tools import YoutubeVideoSearchTool
+from crewai_tools import YoutubeVideoSearchTool,BaseTool
 from dotenv import load_dotenv
-from embedchain import App
-from embedchain.models.data_type import DataType
 from pydantic.v1 import BaseModel, Field
 from typing import Type,List
 import requests
 from datetime import datetime, timezone
 import os
+from icecream import ic
 
 from datetime import datetime, timezone
 from .types import (AddVideoToVectorDB_Input,AddVideoToVectorDB_Output,FetchLatestVideosFromYouTubeChannel_Input,
@@ -16,6 +14,8 @@ from .types import (AddVideoToVectorDB_Input,AddVideoToVectorDB_Output,FetchLate
 )
 
 
+
+# Add Video To VectorDB Tool
 class AddVideoToVectorDB_Tool(BaseTool):
    
     name: str = "Add Video to Vector DB"
@@ -23,20 +23,11 @@ class AddVideoToVectorDB_Tool(BaseTool):
     # args_schema: Type[BaseModel] = AddVideoToVectorDB_Input
     return_schema: Type[BaseModel] = AddVideoToVectorDB_Output
 
-    def _run(self, video_url: str) -> AddVideoToVectorDB_Output:
+    def _run(self) -> AddVideoToVectorDB_Output:
         try:
             os.environ["GOOGLE_API_KEY"] = os.getenv('GOOGLE_API_KEY')  
-            tool = YoutubeVideoSearchTool(
+            YoutubeVideoSearchTool(
             config=dict(
-                # llm=dict(
-                #     provider="ollama", # or google, openai, anthropic, llama2, ...
-                #     config=dict(
-                #         model="llama2",
-                #         # temperature=0.5,
-                #         # top_p=1,
-                #         # stream=true,
-                #     ),
-                # ),
                 embedder=dict(
                     provider="google", # or openai, ollama, ...
                     config=dict(
@@ -47,9 +38,6 @@ class AddVideoToVectorDB_Tool(BaseTool):
                  ),
                 )
             )
-        
-            # app = App.from_config(config_path='config.yaml')
-            # app.add(video_url, data_type=DataType.YOUTUBE_VIDEO)
             return AddVideoToVectorDB_Output(success=True)
         except Exception as e:
             print(f'AddVideoToVectorDB_Tool failed error: {e}')
@@ -57,10 +45,7 @@ class AddVideoToVectorDB_Tool(BaseTool):
 
 
 
-
-
-
-
+# Fetch Latest Videos From YouTubeChannel Tool
 class FetchLatestVideosFromYouTubeChannel_Tool(BaseTool):
     name: str = "Fetch Latest Videos for Channel"
     description: str = (
@@ -119,6 +104,8 @@ class FetchLatestVideosFromYouTubeChannel_Tool(BaseTool):
                     video_url=f"https://www.youtube.com/watch?v={video_id}",
                 )
             )
-
-        
         return FetchLatestVideosFromYouTubeChannel_Output(videos=videos)
+
+
+
+

@@ -1,11 +1,12 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 
+# custom imports
+from .tools.types import ContentCreatorInfo
 from .tools.tools import (
 	add_video_to_vector_db_tool,fetch_latest_videos_tool,
-	fire_crawl_search_tool,rag_tool
+	rag_tool,website_search_tool
 )
-from .tools.types import ContentCreatorInfo
 
 
 # If you want to run a snippet of code before or after the crew starts, 
@@ -67,7 +68,8 @@ class Youtube():
 		return Agent(
 			config=self.agents_config['fallback_agent'],
 			verbose=True,
-			tools=[fire_crawl_search_tool]
+			tools=[website_search_tool]
+			# tools=[fire_crawl_search_tool]
 		)
 	
 
@@ -118,7 +120,8 @@ class Youtube():
 	def fallback_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['fallback_task'],
-			tools=[fire_crawl_search_tool],
+			tools=[website_search_tool],
+			# tools=[fire_crawl_search_tool],
 			output_pydantic=ContentCreatorInfo
 			
 		)
