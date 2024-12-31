@@ -11,23 +11,40 @@ website_search_tool = SerperDevTool()
 
 
 
-rag_tool = RagTool(
-    config=dict(
-        llm=dict(
-            provider='google',
-            config=dict( 
-                model="gemini/gemini-1.5-flash", 
-                api_key=os.getenv('GOOGLE_API_KEY')
-                 ),
-        )
-        ,
-        embedder=dict(
-            provider='google',
-            config=dict(
-                    model="models/embedding-001", 
-                    task_type="retrieval_document",
+# rag_tool = RagTool(
+#     config=dict(
+#         llm=dict(
+#             provider='google',
+#             config=dict( 
+#                 model="gemini/gemini-1.5-flash", 
+#                 api_key=os.getenv('GOOGLE_API_KEY')
+#                  ),
+#         )
+#         ,
+#         embedder=dict(
+#             provider='google',
+#             config=dict(
+#                     model="models/embedding-001", 
+#                     task_type="retrieval_document",
                     
-            )
-        )
-    )
+#             )
+#         )
+#     )
+# )
+
+rag_tool = RagTool(
+    config={
+        "llm": {
+            "provider": "google",
+            "config": {
+                "model": "gemini-1.5-flash",  # Specify the desired Google LLM
+            },
+        },
+        "embedding_model": {
+            "provider": "google",
+            "config": {
+                "model": "models/text-embedding-004",  # Specify the desired Google embedding model
+            },
+        },
+    }
 )

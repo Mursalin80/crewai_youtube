@@ -51,6 +51,8 @@ class Youtube():
 			config=self.agents_config['general_research_agent'],
 			verbose=True,
 			tools=[rag_tool]
+
+			
 		)
 	
 	# follow_up_agent
@@ -101,6 +103,7 @@ class Youtube():
 	def find_initial_information_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['find_initial_information_task'],
+			context=[self.scrape_youtube_channel_task()],
 			tools=[rag_tool],
 			output_pydantic=ContentCreatorInfo
 		)
@@ -110,6 +113,7 @@ class Youtube():
 	def follow_up_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['follow_up_task'],
+			context=[self.scrape_youtube_channel_task()],
 			tools=[rag_tool],
 			output_pydantic=ContentCreatorInfo
 			
@@ -121,7 +125,6 @@ class Youtube():
 		return Task(
 			config=self.tasks_config['fallback_task'],
 			tools=[website_search_tool],
-			# tools=[fire_crawl_search_tool],
 			output_pydantic=ContentCreatorInfo
 			
 		)

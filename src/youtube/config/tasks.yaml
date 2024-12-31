@@ -1,7 +1,7 @@
 scrape_youtube_channel_task:
   description: |
-    Scrape the latest five videos from the specified YouTube channel.
-    Extract relevant information about the content of the latest five videos.
+    Scrape the latest 2 videos from the specified YouTube channel.
+    Extract relevant information about the content of the latest 2 videos.
     Ensure that all information comes directly from the YouTube channel and videos. 
     Do not make up any information.
 
@@ -9,7 +9,7 @@ scrape_youtube_channel_task:
 
     {youtube_channel_handle}
   expected_output: |
-    Extract relevant information about the content of the latest 3 videos 
+    Extract relevant information about the content of the latest 2 videos 
     from the specified YouTube channel.
   agent: scrape_agent
 

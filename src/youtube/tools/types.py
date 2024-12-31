@@ -39,7 +39,7 @@ class FetchLatestVideosFromYouTubeChannel_Output(BaseModel):
 
 class ContentCreatorInfo(BaseModel):
     first_name: Optional[str] = Field(
-        ..., description="The first name of the content creator"
+        None, description="The first name of the content creator"
     )
     last_name: Optional[str] = Field(
         None, description="The last name of the content creator"
